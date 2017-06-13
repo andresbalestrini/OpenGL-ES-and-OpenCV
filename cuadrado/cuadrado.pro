@@ -52,7 +52,4 @@ RESOURCES += \
     textures.qrc \
     shaders.qrc
 
-DISTFILES += \
-    cube.png \
-    fshader.fsh \
-    vshader.vsh
+DISTFILES +=
