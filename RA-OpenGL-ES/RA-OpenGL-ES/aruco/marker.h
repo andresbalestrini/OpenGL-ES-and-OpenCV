@@ -45,6 +45,7 @@ public:
     int id;
     //size of the markers sides in meters
     float ssize;
+
     //matrices of rotation and translation respect to the camera
     cv::Mat Rvec,Tvec;
 
@@ -101,7 +102,7 @@ public:
     /**Given the extrinsic camera parameters returns the GL_MODELVIEW matrix for opengl.
      * Setting this matrix, the reference coordinate system will be set in this marker
      */
-    void glGetModelViewMatrix(  double modelview_matrix[16])throw(cv::Exception);
+    void glGetModelViewMatrix( double modelview_matrix[16] ) throw( cv::Exception );
     
     /**
      * Returns position vector and orientation quaternion for an Ogre scene node or entity.
