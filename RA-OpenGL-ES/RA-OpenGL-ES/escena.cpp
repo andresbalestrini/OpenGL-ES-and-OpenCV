@@ -20,9 +20,10 @@ Escena::Escena(QWidget *parent) : QOpenGLWidget(parent),
                                   sceneTimer ( new QTimer ),
                                   milisecondsTimer( 15 ),
                                   markerDetector( new MarkerDetector ),
-                                  cameraParameters( new CameraParameters )
+                                  cameraParameters( new CameraParameters ),
+                                  videos( new QVector< Video * > )
 {
-    if ( ! videoCapture->open( CV_CAP_ANY ) )  {
+    if ( ! videoCapture->open( 0 ) )  {
         QMessageBox::critical(this, "No se pudo iniciar camara", "Problema con videoCapture->open");
     }
 
@@ -113,6 +114,19 @@ void Escena::loadTextures()
     }
 }
 
+void Escena::loadVideos()
+{    
+    QDir directory( "../Videos" );
+
+    QStringList fileFilter;
+    fileFilter << "*.avi" << "*.wmv" << "*.mpg" << "*.mpeg" << "*.mpeg1" << "*.mpeg2" << "*.mpeg4" << "*.mp4";
+    QStringList videoFiles = directory.entryList( fileFilter );    
+    qDebug()<<videoFiles;
+
+    for ( int i = 0 ; i < videoFiles.size() ; i++ )
+        videos->append( new Video( videoFiles.at( i ) ) );    
+}
+
 /*
  * 'loadTextures' --> carga todas las texturas con sus coordenadas correspondientes dejandolas disponibles
  * en el vector de texturas 'vImageTexture' y en el vector de coordenadas 'vImageBuffer'
@@ -130,6 +144,7 @@ void Escena::initializeGL()  {
     glClearColor( 1, 1, 1, 1 );
 
     this->loadTextures();
+    this->loadVideos();
 
     this->crearProgram();
 
@@ -159,8 +174,11 @@ void Escena::paintGL()
 
     if( detectedMarkers.size() > 0 )  {
 
-        vImageTexture->at( 2 )->bind();
-        vImageBuffer->at( 2 )->bind();
+//        vImageTexture->at( 0 )->bind();
+        videos->at(0)->grabber->texture->bind();
+        videos->at(0)->player->play();
+//        videos->at(0)->grabber->texture->bind();
+//        videos->at(0)->grabber->videoBuffer->bind();
 
         double projectionMatrix[16];
         cameraParameters->glGetProjectionMatrix( cv::Size2i( 640, 480 ),
@@ -367,7 +385,7 @@ void Escena::drawCamera()
         if ( ! cam_texture->isStorageAllocated() )  {
             cam_texture->allocateStorage();
         }
-
+//        qDebug()<<temp.type();
         cam_texture->setData( QOpenGLTexture::RGB, QOpenGLTexture::UInt8, temp.data );
 
         cam_texture->bind();

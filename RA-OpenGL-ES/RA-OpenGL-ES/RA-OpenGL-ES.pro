@@ -72,7 +72,8 @@ HEADERS += \
            aruco/subpixelcorner.h \
     principal.h \
     escena.h \
-    geometryengine.h
+    geometryengine.h \
+    video.h
 
 FORMS += \
     principal.ui

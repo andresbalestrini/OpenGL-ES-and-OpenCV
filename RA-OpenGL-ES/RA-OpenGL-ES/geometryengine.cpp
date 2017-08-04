@@ -205,7 +205,7 @@ void GeometryEngine::initCameraGeometry()
 
 void GeometryEngine::initSheetGeometry()
 {
-    GLfloat unidad = 0.55f;
+    GLfloat unidad = 0.35f;
 
     VertexData vertices[] = {
         { QVector3D( unidad, -unidad, -0        ), QVector2D( 0.0f, 0.0f ) },  // v8

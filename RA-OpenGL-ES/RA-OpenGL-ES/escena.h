@@ -17,6 +17,7 @@
 #include <aruco/aruco.h>
 
 #include "geometryengine.h"
+#include "video.h"
 
 #define PROGRAM_VERTEX_ATTRIBUTE 0
 #define PROGRAM_TEXCOORD_ATTRIBUTE 1
@@ -94,6 +95,7 @@ private:
 
     MarkerDetector * markerDetector;
     std::vector< Marker > detectedMarkers;
+    QVector< Video * > *videos;
     CameraParameters *cameraParameters;
 
     Mat matCamera;
@@ -108,6 +110,7 @@ private:
     QQuaternion rotation;
 
     void loadTextures();
+    void loadVideos();
 
 private slots:
     void slot_updateScene();
